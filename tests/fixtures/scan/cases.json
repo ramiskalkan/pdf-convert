@@ -1,0 +1,26 @@
+{
+  "_": "Shared fixture set for the scanned-PDF threshold. server: the decision of PyMuPDF (scan.py) and of pdftotext (apps/api scan-rule.ts in the pdfbirlestirme monorepo), the 80% rule. browser: the pdf.js sample (packages/engine text-stats.ts): the browser samples as many evenly spaced pages as the server needs for a rejection (ceil(0.8 × N)) (sampleIndices(N, scanSampleSize(N, sampleMax)); at most sampleMax = 50, and if more are needed (N > 62) there is no pre-check), and rejects only if ALL sampled pages are low-text; the server then rejects too, even if every unsampled page has text. If browser is true, server must be true as well. mixed-25p: one of the text pages (2) falls into the browser's sample (sampleIndices(25, 20)); the browser lets it through, the server rejects it (Review Focus 1). counterexample-20p: every page of the old 12-page sample (sampleIndices(20, 12)) is scanned and 5 of the remaining 8 pages have text; the server accepts it (75%) and the browser does not reject it either (the spec §5.2 counterexample). Page kinds: T = long Turkish text, I = image only, N19/N20 = exactly 19/20 non-whitespace characters (with NBSP, thin space and narrow NBSP in between).",
+  "sampleMax": 50,
+  "pageChars": { "I": 0, "N19": 19, "N20": 20 },
+  "pdfs": [
+    { "file": "text-3p.pdf", "pages": ["T", "T", "T"], "server": false, "browser": false },
+    { "file": "scanned-3p.pdf", "pages": ["I", "I", "I"], "server": true, "browser": true },
+    { "file": "mixed-10p.pdf", "pages": ["T", "I", "I", "I", "I", "I", "I", "I", "I", "I"], "server": true, "browser": false },
+    { "file": "cover-12p.pdf", "pages": ["I", "I", "I", "T", "T", "T", "T", "T", "T", "T", "T", "T"], "server": false, "browser": false },
+    { "file": "boundary-5p.pdf", "pages": ["I", "I", "I", "I", "T"], "server": true, "browser": false },
+    { "file": "below-boundary-5p.pdf", "pages": ["I", "I", "I", "T", "T"], "server": false, "browser": false },
+    { "file": "threshold-19.pdf", "pages": ["N19"], "server": true, "browser": true },
+    { "file": "threshold-20.pdf", "pages": ["N20"], "server": false, "browser": false },
+    { "file": "mixed-25p.pdf", "pages": ["I", "I", "T", "I", "I", "I", "I", "I", "I", "I", "T", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "T", "I", "I", "I"], "server": true, "browser": false },
+    { "file": "counterexample-20p.pdf", "pages": ["I", "I", "T", "I", "T", "I", "I", "T", "I", "T", "I", "T", "I", "I", "I", "I", "I", "I", "I", "I"], "server": false, "browser": false },
+    { "file": "scanned-30p.pdf", "pages": ["I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I", "I"], "server": true, "browser": true }
+  ],
+  "whitespace": [
+    { "text": "a b\tc\nd ", "count": 4 },
+    { "text": "\u00a0\u2009\u202f\u3000\u200b\ufeff\u0085\u000b\r\u1680\u2028\u2029\u205f", "count": 0 },
+    { "text": "\f", "count": 0 },
+    { "text": "\u001c\u001d\u001e\u001f", "count": 4 },
+    { "text": "ğüşöçİı₺", "count": 8 },
+    { "text": "\ud83d\ude00 x", "count": 2 }
+  ]
+}

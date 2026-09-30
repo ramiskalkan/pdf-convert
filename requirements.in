@@ -1,0 +1,15 @@
+# Runtime dependencies (latest stable releases as of 2026-09-25; upgraded monthly).
+pip==26.2.1
+pymupdf==1.28.2
+pdf2docx==0.5.13
+python-docx==1.2.0
+opencv-python-headless==5.0.0.93
+numpy==2.5.3
+fonttools==4.66.0
+lxml==6.1.3
+fire==0.7.1
+termcolor==3.3.0
+typing-extensions==4.16.0
+# PDF to Excel (latest stable releases as of 2026-09-29; both MIT).
+openpyxl==3.1.5
+et-xmlfile==2.0.0

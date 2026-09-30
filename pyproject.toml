@@ -1,0 +1,28 @@
+# Installation does NOT use this file: the server and the container install requirements.lock with
+# --require-hashes --only-binary=:all:.
+[project]
+name = "pdfb-convert"
+version = "0.1.0"
+description = "Converts PDF to editable Word and Excel documents (pdfbirlestirme.com)"
+license = "AGPL-3.0-only"
+requires-python = ">=3.12,<3.13"
+readme = "README.md"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "BLE", "PL"]
+ignore = ["S101", "PLR2004"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S603", "S607", "PLR0913"]
+"scripts/**" = ["S603", "S607"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q --strict-markers"
+markers = ["slow: long-running tests such as the 100-page corpus (run in the container)"]
